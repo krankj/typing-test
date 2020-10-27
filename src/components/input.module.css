@@ -1,0 +1,11 @@
+.inputField {
+  width: 80vw;
+  height: 50px;
+  font-size: large;
+  font-family: inherit;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  padding: 20px;
+}
