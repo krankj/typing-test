@@ -1,9 +1,9 @@
 .inputField {
-  width: 80vw;
+  width: 40vw;
   height: 50px;
   font-size: large;
   font-family: inherit;
-  font-weight: bold;
+  font-size: 2rem;
   border: none;
   border-radius: 5px;
   text-decoration: none;
