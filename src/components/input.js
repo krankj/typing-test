@@ -16,7 +16,7 @@ const InputField = () => {
     }
   };
 
-  const detectSpacePresent = (e) => {
+  const handleSpaceKey = (e) => {
     if (e.keyCode === 32) {
       if (inputValue !== "") {
         inputArray.push(inputValue);
@@ -36,7 +36,7 @@ const InputField = () => {
         type="text"
         value={inputValue}
         onChange={handleInputChange}
-        onKeyDown={detectSpacePresent}
+        onKeyDown={handleSpaceKey}
       />
       <p>Correct words: {correctWords}</p>
     </div>
