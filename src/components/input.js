@@ -7,12 +7,32 @@ const textArray = fetchedString.split(" ");
 const InputField = () => {
   const [correctWords, setCorrectWords] = React.useState(0);
   const [inputValue, setInputValue] = React.useState("");
+  const [isTimerOn, setIsTimerOn] = React.useState(false);
+  const [countdown, setCountDown] = React.useState(60);
+
+  React.useEffect(() => {
+    let interval;
+    if (isTimerOn) {
+      interval = setInterval(() => {
+        setCountDown((prevCount) => prevCount - 0.1);
+      }, 100);
+    }
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isTimerOn]);
+
+  const startTimer = () => {
+    setIsTimerOn(true);
+  };
 
   const handleInputChange = (e) => {
     let enteredValue = e.target.value;
-    setInputValue(enteredValue);
     if (enteredValue === " ") {
       setInputValue("");
+    } else {
+      startTimer();
+      setInputValue(enteredValue);
     }
   };
 
@@ -39,6 +59,7 @@ const InputField = () => {
         onKeyDown={handleSpaceKey}
       />
       <p>Correct words: {correctWords}</p>
+      <p>Timer: {countdown.toFixed(1)}</p>
     </div>
   );
 };
