@@ -9,6 +9,8 @@ const InputField = () => {
   const [inputValue, setInputValue] = React.useState("");
   const [isTimerOn, setIsTimerOn] = React.useState(false);
   const [countdown, setCountDown] = React.useState(60);
+  const iterator = React.useRef(0);
+  const inputRef = React.useRef();
 
   React.useEffect(() => {
     let interval;
@@ -26,6 +28,17 @@ const InputField = () => {
     setIsTimerOn(true);
   };
 
+  const handleReset = () => {
+    setIsTimerOn(false);
+    setCountDown(60);
+    iterator.current = 0;
+    setCorrectWords(0);
+    setInputValue("");
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
   const handleInputChange = (e) => {
     let enteredValue = e.target.value;
     if (enteredValue === " ") {
@@ -41,9 +54,10 @@ const InputField = () => {
       if (inputValue !== "") {
         inputArray.push(inputValue);
         console.log(inputArray);
-        if (inputArray[correctWords] === textArray[correctWords]) {
+        if (inputArray[iterator.current] === textArray[iterator.current]) {
           setCorrectWords((prevCount) => prevCount + 1);
         }
+        iterator.current++;
       }
       setInputValue("");
     }
@@ -52,7 +66,9 @@ const InputField = () => {
     <div>
       <p>{fetchedString}</p>
       <input
+        ref={inputRef}
         className={styles.inputField}
+        autoFocus
         type="text"
         value={inputValue}
         onChange={handleInputChange}
@@ -60,6 +76,7 @@ const InputField = () => {
       />
       <p>Correct words: {correctWords}</p>
       <p>Timer: {countdown.toFixed(1)}</p>
+      <button onClick={handleReset}>Reset</button>
     </div>
   );
 };
