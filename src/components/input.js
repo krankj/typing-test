@@ -50,7 +50,7 @@ const InputField = () => {
   };
 
   const handleSpaceKey = (e) => {
-    if (e.keyCode === 32) {
+    if (e.key === " ") {
       if (inputValue !== "") {
         inputArray.push(inputValue);
         console.log(inputArray);
