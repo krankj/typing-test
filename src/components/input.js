@@ -1,5 +1,7 @@
 import React from "react";
 import styles from "./input.module.css";
+import Timer from "./Timer";
+
 const inputArray = [];
 const fetchedString = "My name is Sudarshan and I am coming here";
 const textArray = fetchedString.split(" ");
@@ -7,31 +9,22 @@ const textArray = fetchedString.split(" ");
 const InputField = () => {
   const [correctWords, setCorrectWords] = React.useState(0);
   const [inputValue, setInputValue] = React.useState("");
-  const [isTimerOn, setIsTimerOn] = React.useState(false);
-  const [countdown, setCountDown] = React.useState(60);
+  const [recordWord, setRecordWord] = React.useState(false);
+  const [startTimer, setStartTimer] = React.useState(false);
+
   const iterator = React.useRef(0);
   const inputRef = React.useRef();
 
-  React.useEffect(() => {
-    let interval;
-    if (isTimerOn) {
-      interval = setInterval(() => {
-        setCountDown((prevCount) => prevCount - 0.1);
-      }, 100);
+  const handleInputChange = (e) => {
+    let enteredValue = e.target.value;
+    if (enteredValue === " ") {
+      setInputValue("");
+    } else {
+      setInputValue(enteredValue);
     }
-    return () => {
-      clearInterval(interval);
-    };
-  }, [isTimerOn]);
-
-  const startTimer = () => {
-    setIsTimerOn(true);
   };
 
-  const handleReset = () => {
-    setIsTimerOn(false);
-    setCountDown(60);
-    iterator.current = 0;
+  const handleTimerReset = () => {
     setCorrectWords(0);
     setInputValue("");
     if (inputRef.current) {
@@ -39,18 +32,8 @@ const InputField = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    let enteredValue = e.target.value;
-    if (enteredValue === " ") {
-      setInputValue("");
-    } else {
-      startTimer();
-      setInputValue(enteredValue);
-    }
-  };
-
-  const handleSpaceKey = (e) => {
-    if (e.key === " ") {
+  React.useEffect(() => {
+    if (recordWord) {
       if (inputValue !== "") {
         inputArray.push(inputValue);
         console.log(inputArray);
@@ -58,13 +41,26 @@ const InputField = () => {
           setCorrectWords((prevCount) => prevCount + 1);
         }
         iterator.current++;
+        setInputValue("");
       }
-      setInputValue("");
+    }
+  }, [recordWord, inputValue]);
+
+  const handleSpaceKey = (e) => {
+    if (e.key === " ") {
+      setRecordWord(true);
+    } else {
+      setStartTimer(true);
+      setRecordWord(false);
     }
   };
   return (
     <div>
-      <p>{fetchedString}</p>
+      <p>
+        {textArray.map((word) => (
+          <span>{word}&nbsp;</span>
+        ))}
+      </p>
       <input
         ref={inputRef}
         className={styles.inputField}
@@ -75,8 +71,7 @@ const InputField = () => {
         onKeyDown={handleSpaceKey}
       />
       <p>Correct words: {correctWords}</p>
-      <p>Timer: {countdown.toFixed(1)}</p>
-      <button onClick={handleReset}>Reset</button>
+      <Timer startTimer={startTimer} resetFields={handleTimerReset} />
     </div>
   );
 };
