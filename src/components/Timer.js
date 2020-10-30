@@ -36,6 +36,10 @@ const Timer = ({ startTimer, resetFields }) => {
   );
 };
 
-const Button = ({ resetTimer }) => <button onClick={resetTimer}>Reset</button>;
+const Button = ({ resetTimer }) => (
+  <button className={styles.button} onClick={resetTimer}>
+    Reset
+  </button>
+);
 
 export default Timer;
