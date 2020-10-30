@@ -76,6 +76,9 @@ const InputField = () => {
   React.useEffect(() => {
     if (recordWord) {
       if (inputValue !== "") {
+        if (iterator < textData.length - 1) {
+          textData[iterator + 1]["toBeTyped"] = true;
+        }
         inputArray.push(inputValue);
         if (iterator < textData.length) {
           if (inputArray[iterator] === textData[iterator]["word"]) {
@@ -94,9 +97,6 @@ const InputField = () => {
 
   const handleSpaceKey = (e) => {
     if (e.key === " ") {
-      if (iterator < textData.length - 1) {
-        textData[iterator + 1]["toBeTyped"] = true;
-      }
       setRecordWord(true);
     } else {
       setRecordWord(false);
