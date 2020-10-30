@@ -5,9 +5,25 @@
   font-size: calc(1px + 2vmin);
 }
 
-.App-header {
+.appContainer > p {
+  font-size: 2rem;
+  font-weight: 100;
+}
+
+.appContent {
+  min-height: 60vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   font-size: calc(10px + 2vmin);
+}
+
+@media screen and (max-width: 400px) {
+  .inputField {
+    width: 60vw;
+  }
+  .sampleTextContainer {
+    width: 60vw;
+  }
 }

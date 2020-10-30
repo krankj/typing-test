@@ -1,9 +1,10 @@
 .inputField {
   margin-top: 2rem;
   width: 40vw;
-  height: 50px;
+  height: 40px;
   font-size: large;
   font-family: inherit;
+  background-color: #cacaca;
   font-size: 2rem;
   border: none;
   border-radius: 5px;
@@ -31,4 +32,13 @@
 
 span {
   display: inline-block;
+}
+
+@media screen and (max-width: 400px) {
+  .inputField {
+    width: 60vw;
+  }
+  .sampleTextContainer {
+    width: 60vw;
+  }
 }

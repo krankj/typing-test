@@ -10,10 +10,11 @@ const sampleTextData = [
   "Srini and Raksha are going to do something about it, I know it",
 ];
 
-function WordData(word, highlight) {
+function WordData(word, toBeTyped) {
   this.word = word;
-  this.highlight = highlight;
-  this.correct = false;
+  this.toBeTyped = toBeTyped;
+  this.wasCorrect = false;
+  this.isCorrect = true;
 }
 
 const createEnrichedTextArray = (string) => {
@@ -22,6 +23,7 @@ const createEnrichedTextArray = (string) => {
     return new WordData(word, false);
   });
 };
+let iterator = 0;
 
 const getRandomTextData = () => {
   return sampleTextData[random(0, sampleTextData.length)];
@@ -36,7 +38,6 @@ const InputField = () => {
     createEnrichedTextArray(getRandomTextData())
   );
 
-  const iterator = React.useRef(0);
   const inputRef = React.useRef();
 
   const handleInputChange = (e) => {
@@ -49,12 +50,22 @@ const InputField = () => {
     }
   };
 
+  React.useEffect(() => {
+    if (iterator < textData.length) {
+      if (!textData[iterator]["word"].startsWith(inputValue)) {
+        textData[iterator]["isCorrect"] = false;
+      } else {
+        textData[iterator]["isCorrect"] = true;
+      }
+    }
+  }, [inputValue, textData]);
+
   const handleTimerReset = () => {
     setTextData(createEnrichedTextArray(getRandomTextData()));
     setCorrectWords(0);
     setInputArray([]);
     setInputValue("");
-    iterator.current = 0;
+    iterator = 0;
     if (inputRef.current) {
       inputRef.current.focus();
     }
@@ -64,16 +75,14 @@ const InputField = () => {
     if (recordWord) {
       if (inputValue !== "") {
         inputArray.push(inputValue);
-        if (iterator.current < textData.length) {
-          if (
-            inputArray[iterator.current] === textData[iterator.current]["word"]
-          ) {
-            textData[iterator.current]["correct"] = true;
+        if (iterator < textData.length) {
+          if (inputArray[iterator] === textData[iterator]["word"]) {
+            textData[iterator]["wasCorrect"] = true;
             setCorrectWords((prevCount) => prevCount + 1);
           } else {
-            textData[iterator.current]["correct"] = false;
+            textData[iterator]["wasCorrect"] = false;
           }
-          iterator.current++;
+          iterator++;
           setInputValue("");
         }
       }
@@ -82,8 +91,8 @@ const InputField = () => {
 
   const handleSpaceKey = (e) => {
     if (e.key === " ") {
-      if (iterator.current < textData.length - 1) {
-        textData[iterator.current + 1]["highlight"] = true;
+      if (iterator < textData.length - 1) {
+        textData[iterator + 1]["toBeTyped"] = true;
       }
       setRecordWord(true);
     } else {
@@ -94,11 +103,16 @@ const InputField = () => {
     <div>
       <div className={styles.sampleTextContainer}>
         <div className={styles.sampleText}>
-          {textData.map((item, index) => {
-            if (item.highlight) {
-              return <Word key={uuidv4()} bgColor="grey" data={item.word} />;
-            } else if (!item.highlight) {
-              return <Word key={uuidv4()} bgColor="none" data={item.word} />;
+          {textData.map((item) => {
+            if (item.wasCorrect) {
+              return <Word key={uuidv4()} color="green" data={item.word} />;
+            }
+            if (item.toBeTyped) {
+              if (item.isCorrect) {
+                return <Word key={uuidv4()} bgColor="grey" data={item.word} />;
+              } else {
+                return <Word key={uuidv4()} bgColor="red" data={item.word} />;
+              }
             }
 
             return <Word key={uuidv4()} color="none" data={item.word} />;

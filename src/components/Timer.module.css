@@ -9,12 +9,18 @@
   border-radius: 2px;
   padding: 8px;
   text-decoration: none;
-  background-color: #1e2430;
+  background-color: #212631;
   color: white;
   font-size: 0.7rem;
 }
 
 .button:hover {
   cursor: pointer;
-  background-color: #131822;
+  background-color: #1b2230;
+}
+
+@media screen and (max-width: 500px) {
+  .button {
+    margin-top: 1.5rem;
+  }
 }

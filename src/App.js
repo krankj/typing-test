@@ -4,10 +4,12 @@ import InputField from "components/input";
 function App() {
   return (
     <div className="App">
-      <h1>Typing test</h1>
-      <header className="App-header">
-        <InputField />
-      </header>
+      <div className="appContainer">
+        <p>Typing test</p>
+        <div className="appContent">
+          <InputField />
+        </div>
+      </div>
     </div>
   );
 }
