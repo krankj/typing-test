@@ -10,9 +10,16 @@
   padding: 20px;
 }
 
-p {
-  font-size: 0.9rem;
+.sampleText {
+  font-weight: 400;
+  width: 40vw;
+  font-size: 2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-div p:first-child {
-  font-size: 2.5rem;
+
+.correctWords {
+  font-weight: 100;
+  font-size: 0.9rem;
 }

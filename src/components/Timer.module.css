@@ -1,3 +1,5 @@
 .timer p {
-  font-size: 0.2rem;
+  margin: 0;
+  font-weight: 100;
+  font-size: 0.9rem;
 }

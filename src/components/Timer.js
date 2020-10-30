@@ -31,9 +31,11 @@ const Timer = ({ startTimer, resetFields }) => {
   return (
     <div className={styles.timer}>
       <p>Timer: {countdown.toFixed(1)}</p>
-      <button onClick={resetTimer}>Reset</button>
+      <Button resetTimer={resetTimer} />
     </div>
   );
 };
+
+const Button = ({ resetTimer }) => <button onClick={resetTimer}>Reset</button>;
 
 export default Timer;
