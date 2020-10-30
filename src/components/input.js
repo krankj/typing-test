@@ -2,8 +2,8 @@ import React from "react";
 import styles from "./input.module.css";
 import Timer from "./Timer";
 import random from "utils/random";
+import { v4 as uuidv4 } from "uuid";
 
-const inputArray = [];
 const sampleTextData = [
   "My name is Sudarshan and I am coming here",
   "This is going to be a long long paragraph and there is nothing else anyone can do about it",
@@ -27,6 +27,7 @@ const getRandomTextData = () => {
   return sampleTextData[random(0, sampleTextData.length)];
 };
 const InputField = () => {
+  const [inputArray, setInputArray] = React.useState([]);
   const [correctWords, setCorrectWords] = React.useState(0);
   const [inputValue, setInputValue] = React.useState("");
   const [recordWord, setRecordWord] = React.useState(false);
@@ -51,6 +52,7 @@ const InputField = () => {
   const handleTimerReset = () => {
     setTextData(createEnrichedTextArray(getRandomTextData()));
     setCorrectWords(0);
+    setInputArray([]);
     setInputValue("");
     iterator.current = 0;
     if (inputRef.current) {
@@ -62,7 +64,6 @@ const InputField = () => {
     if (recordWord) {
       if (inputValue !== "") {
         inputArray.push(inputValue);
-        console.log(inputArray);
         if (iterator.current < textData.length) {
           if (
             inputArray[iterator.current] === textData[iterator.current]["word"]
@@ -77,7 +78,7 @@ const InputField = () => {
         }
       }
     }
-  }, [recordWord, inputValue, textData]);
+  }, [recordWord, inputValue, textData, inputArray]);
 
   const handleSpaceKey = (e) => {
     if (e.key === " ") {
@@ -95,12 +96,12 @@ const InputField = () => {
         <p>
           {textData.map((item, index) => {
             if (item.highlight) {
-              return <Word key={index} bgColor="grey" data={item.word} />;
+              return <Word key={uuidv4()} bgColor="grey" data={item.word} />;
             } else if (!item.highlight) {
-              return <Word key={index} bgColor="none" data={item.word} />;
+              return <Word key={uuidv4()} bgColor="none" data={item.word} />;
             }
 
-            return <Word key={index} color="none" data={item.word} />;
+            return <Word key={uuidv4()} color="none" data={item.word} />;
           })}
         </p>
       </div>
