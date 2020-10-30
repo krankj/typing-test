@@ -34,6 +34,7 @@ const InputField = () => {
   const [inputValue, setInputValue] = React.useState("");
   const [recordWord, setRecordWord] = React.useState(false);
   const [startTimer, setStartTimer] = React.useState(false);
+  const [dummyRender, setDummyRender] = React.useState(0);
   const [textData, setTextData] = React.useState(
     createEnrichedTextArray(getRandomTextData())
   );
@@ -58,6 +59,7 @@ const InputField = () => {
         textData[iterator]["isCorrect"] = true;
       }
     }
+    setDummyRender((prev) => prev + 1);
   }, [inputValue, textData]);
 
   const handleTimerReset = () => {
@@ -80,6 +82,7 @@ const InputField = () => {
             textData[iterator]["wasCorrect"] = true;
             setCorrectWords((prevCount) => prevCount + 1);
           } else {
+            textData[iterator]["isCorrect"] = false;
             textData[iterator]["wasCorrect"] = false;
           }
           iterator++;
@@ -138,8 +141,8 @@ const Word = ({ color, bgColor, data }) => (
   <span>
     <span
       style={{
-        padding: "0 2px 0 2px",
-        borderRadius: "5px",
+        padding: "0px 2px 0 2px",
+        borderRadius: "3px",
         backgroundColor: bgColor,
         color: color,
       }}
