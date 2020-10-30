@@ -92,8 +92,8 @@ const InputField = () => {
   };
   return (
     <div>
-      <div className={styles.sampleText}>
-        <p>
+      <div className={styles.sampleTextContainer}>
+        <p className={styles.sampleText}>
           {textData.map((item, index) => {
             if (item.highlight) {
               return <Word key={uuidv4()} bgColor="grey" data={item.word} />;

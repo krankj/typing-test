@@ -10,10 +10,13 @@
   padding: 20px;
 }
 
-.sampleText {
+.sampleTextContainer {
   font-weight: 400;
   width: 40vw;
   font-size: 2rem;
+}
+
+.sampleText {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -22,4 +25,10 @@
 .correctWords {
   font-weight: 100;
   font-size: 0.9rem;
+}
+
+span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
