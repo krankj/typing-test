@@ -1,4 +1,5 @@
 .inputField {
+  margin-top: 2rem;
   width: 40vw;
   height: 50px;
   font-size: large;
@@ -17,9 +18,10 @@
 }
 
 .sampleText {
-  overflow: hidden;
+  height: 100px;
+  overflow-y: hidden;
+  line-height: 3rem;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .correctWords {
@@ -28,7 +30,5 @@
 }
 
 span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: inline-block;
 }

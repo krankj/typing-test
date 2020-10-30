@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const sampleTextData = [
   "My name is Sudarshan and I am coming here",
-  "This is going to be a long long paragraph and there is nothing else anyone can do about it",
+  "This is going to be a long long paragraph and there is nothing else anyone can do about it and what if there is something done for the well being then there is absolutely nothing",
   "Srini and Raksha are going to do something about it, I know it",
 ];
 
@@ -93,7 +93,7 @@ const InputField = () => {
   return (
     <div>
       <div className={styles.sampleTextContainer}>
-        <p className={styles.sampleText}>
+        <div className={styles.sampleText}>
           {textData.map((item, index) => {
             if (item.highlight) {
               return <Word key={uuidv4()} bgColor="grey" data={item.word} />;
@@ -103,7 +103,7 @@ const InputField = () => {
 
             return <Word key={uuidv4()} color="none" data={item.word} />;
           })}
-        </p>
+        </div>
       </div>
       <input
         ref={inputRef}
