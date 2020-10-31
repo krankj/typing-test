@@ -10,11 +10,12 @@ const sampleTextData = [
   "Srini and Raksha are going to do something about it, I know it",
 ];
 
-function WordData(word, toBeTyped) {
+function WordData(word, toVisit) {
   this.word = word;
-  this.toBeTyped = toBeTyped;
+  this.toVisit = toVisit;
   this.wasCorrect = false;
   this.isCorrect = true;
+  this.visited = false;
 }
 
 const createEnrichedTextArray = (string) => {
@@ -77,7 +78,7 @@ const InputField = () => {
     if (recordWord) {
       if (inputValue !== "") {
         if (iterator < textData.length - 1) {
-          textData[iterator + 1]["toBeTyped"] = true;
+          textData[iterator + 1]["toVisit"] = true;
         }
         inputArray.push(inputValue);
         if (iterator < textData.length) {
@@ -88,6 +89,7 @@ const InputField = () => {
             textData[iterator]["isCorrect"] = false;
             textData[iterator]["wasCorrect"] = false;
           }
+          textData[iterator]["visited"] = true;
           iterator++;
           setInputValue("");
         }
@@ -107,10 +109,14 @@ const InputField = () => {
       <div className={styles.sampleTextContainer}>
         <div className={styles.sampleText}>
           {textData.map((item) => {
-            if (item.wasCorrect) {
-              return <Word key={uuidv4()} color="green" data={item.word} />;
+            if (item.visited) {
+              if (item.wasCorrect) {
+                return <Word key={uuidv4()} color="green" data={item.word} />;
+              } else {
+                return <Word key={uuidv4()} color="red" data={item.word} />;
+              }
             }
-            if (item.toBeTyped) {
+            if (item.toVisit) {
               if (item.isCorrect) {
                 return <Word key={uuidv4()} bgColor="grey" data={item.word} />;
               } else {
