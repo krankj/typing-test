@@ -19,7 +19,7 @@
 }
 
 .sampleText {
-  height: 100px;
+  height: 150px;
   overflow-y: hidden;
   line-height: 3rem;
   text-overflow: ellipsis;
@@ -27,11 +27,28 @@
 
 .correctWords {
   font-weight: 100;
-  font-size: 0.9rem;
+  font-size: 1.3rem;
+}
+
+.hightlightResult {
+  font-weight: 300;
+  color: greenyellow;
+  font-size: 1.5rem;
+  transform: scale(2, 2);
+  animation: fadein 1s;
 }
 
 span {
   display: inline-block;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @media screen and (max-width: 400px) {

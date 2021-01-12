@@ -10,6 +10,48 @@ const sampleTextData = [
   "Srini and Raksha are going to do something about it, I know it",
 ];
 
+const easyTextData = [
+  "he",
+  "it",
+  "be",
+  "something",
+  "easy",
+  "Indian",
+  "girl",
+  "boy",
+  "feverish",
+  "cold",
+  "car",
+  "drift",
+  "radio",
+];
+
+const mediumTextData = [
+  "procrastinate",
+  "indifferent",
+  "causation",
+  "effects",
+  "randomize",
+  "jeopardy",
+  "agony",
+  "interesting",
+  "capable",
+  "profound",
+  "wisdom",
+  "knowledge",
+];
+
+const hardTextData = [
+  "hypocite",
+  "gyaan",
+  "dictatorial",
+  "magnanimous",
+  "respectively",
+  "humbuzz",
+  "pizzas",
+  "recklessness",
+];
+
 function WordData(word, toVisit) {
   this.word = word;
   this.toVisit = toVisit;
@@ -18,16 +60,26 @@ function WordData(word, toVisit) {
   this.visited = false;
 }
 
-const createEnrichedTextArray = (string) => {
-  return string.split(" ").map((word, index) => {
-    if (index === 0) return new WordData(word, true);
-    return new WordData(word, false);
-  });
-};
 let iterator = 0;
 
-const getRandomTextData = () => {
-  return sampleTextData[random(0, sampleTextData.length)];
+const getRandomTextData = (numberOfWords, string) => {
+  let arr = [];
+  if (string) {
+    arr = string
+      .split(" ")
+      .map((word, index) =>
+        index === 0 ? new WordData(word, true) : new WordData(word, false)
+      );
+  } else {
+    for (let i = 0; i < numberOfWords; i++) {
+      let randomWord = easyTextData[random(0, easyTextData.length)];
+      let wordData;
+      if (i === 0) wordData = new WordData(randomWord, true);
+      else wordData = new WordData(randomWord, false);
+      arr.push(wordData);
+    }
+  }
+  return arr;
 };
 const InputField = () => {
   const [inputArray, setInputArray] = React.useState([]);
@@ -36,9 +88,9 @@ const InputField = () => {
   const [recordWord, setRecordWord] = React.useState(false);
   const [startTimer, setStartTimer] = React.useState(false);
   const [dummyRender, setDummyRender] = React.useState(0);
-  const [textData, setTextData] = React.useState(
-    createEnrichedTextArray(getRandomTextData())
-  );
+  const [textData, setTextData] = React.useState(getRandomTextData(10));
+  const [inputDisabled, setInputDisabled] = React.useState(false);
+  const [done, setDone] = React.useState(false);
 
   const inputRef = React.useRef();
 
@@ -64,15 +116,27 @@ const InputField = () => {
   }, [inputValue, textData]);
 
   const handleTimerReset = () => {
-    setTextData(createEnrichedTextArray(getRandomTextData()));
+    setDone(false);
+    setTextData(getRandomTextData(20));
     setCorrectWords(0);
     setInputArray([]);
     setInputValue("");
     setStartTimer(false);
+    setInputDisabled(false);
     iterator = 0;
     if (inputRef.current) {
       inputRef.current.focus();
     }
+  };
+
+  const handleComplete = () => {
+    setTextData([]);
+    setInputArray([]);
+    setInputValue("");
+    iterator = 0;
+    setStartTimer(false);
+    setInputDisabled(true);
+    setDone(true);
   };
 
   React.useEffect(() => {
@@ -129,6 +193,7 @@ const InputField = () => {
           })}
         </div>
       </div>
+
       <input
         ref={inputRef}
         className={styles.inputField}
@@ -137,9 +202,22 @@ const InputField = () => {
         value={inputValue}
         onChange={handleInputChange}
         onKeyDown={handleSpaceKey}
+        disabled={inputDisabled}
       />
-      <p className={styles.correctWords}>Correct words: {correctWords}</p>
-      <Timer startTimer={startTimer} resetFields={handleTimerReset} />
+
+      <p
+        className={`${styles.correctWords} ${
+          done ? `${styles.hightlightResult}` : ""
+        } `}
+      >
+        Correct words: {correctWords}
+      </p>
+
+      <Timer
+        startTimer={startTimer}
+        resetFields={handleTimerReset}
+        isDone={handleComplete}
+      />
     </div>
   );
 };
