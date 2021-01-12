@@ -1,5 +1,8 @@
 import React from "react";
 import styles from "./Timer.module.css";
+import worker from "./worker";
+import WebWorker from "./workerSetup";
+
 const Timer = ({ startTimer, resetFields }) => {
   const [isTimerOn, setIsTimerOn] = React.useState(false);
   const [countdown, setCountDown] = React.useState(60);
@@ -11,14 +14,15 @@ const Timer = ({ startTimer, resetFields }) => {
   }, [startTimer]);
 
   React.useEffect(() => {
-    let interval;
+    let w = new WebWorker(worker);
     if (isTimerOn) {
-      interval = setInterval(() => {
+      w.postMessage("start");
+      w.addEventListener("message", (e) => {
         setCountDown((prevCount) => prevCount - 0.1);
-      }, 100);
+      });
     }
     return () => {
-      clearInterval(interval);
+      w.terminate();
     };
   }, [isTimerOn]);
 

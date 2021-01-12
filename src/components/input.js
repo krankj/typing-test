@@ -68,6 +68,7 @@ const InputField = () => {
     setCorrectWords(0);
     setInputArray([]);
     setInputValue("");
+    setStartTimer(false);
     iterator = 0;
     if (inputRef.current) {
       inputRef.current.focus();
