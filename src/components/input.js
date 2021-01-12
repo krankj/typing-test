@@ -89,7 +89,6 @@ const InputField = () => {
   const [startTimer, setStartTimer] = React.useState(false);
   const [dummyRender, setDummyRender] = React.useState(0);
   const [textData, setTextData] = React.useState(getRandomTextData(10));
-  const [inputDisabled, setInputDisabled] = React.useState(false);
   const [done, setDone] = React.useState(false);
 
   const inputRef = React.useRef();
@@ -122,7 +121,6 @@ const InputField = () => {
     setInputArray([]);
     setInputValue("");
     setStartTimer(false);
-    setInputDisabled(false);
     iterator = 0;
     if (inputRef.current) {
       inputRef.current.focus();
@@ -135,7 +133,6 @@ const InputField = () => {
     setInputValue("");
     iterator = 0;
     setStartTimer(false);
-    setInputDisabled(true);
     setDone(true);
   };
 
@@ -202,7 +199,7 @@ const InputField = () => {
         value={inputValue}
         onChange={handleInputChange}
         onKeyDown={handleSpaceKey}
-        disabled={inputDisabled}
+        disabled={done}
       />
 
       <p
