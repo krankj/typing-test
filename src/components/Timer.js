@@ -17,9 +17,13 @@ const Timer = ({ startTimer, resetFields, isDone }) => {
     let w = new WebWorker(worker);
     if (isTimerOn) {
       w.postMessage("start");
-      w.addEventListener("message", (e) => {
+      w.onmessage = (m) => {
         setCountDown((prevCount) => Number((prevCount - 0.1).toFixed(1)));
-      });
+      };
+
+      // w.addEventListener("message", (e) => {
+      //   setCountDown((prevCount) => Number((prevCount - 0.1).toFixed(1)));
+      // });
     }
     return () => {
       w.terminate();
