@@ -26,7 +26,7 @@ const easyTextData = [
   "radio",
 ];
 
-const mediumTextData = [
+const moderateTextData = [
   "procrastinate",
   "indifferent",
   "causation",
@@ -62,7 +62,7 @@ function WordData(word, toVisit) {
 
 let iterator = 0;
 
-const getRandomTextData = (numberOfWords, string) => {
+const getRandomTextData = (numberOfWords, difficulty, string) => {
   let arr = [];
   if (string) {
     arr = string
@@ -72,7 +72,12 @@ const getRandomTextData = (numberOfWords, string) => {
       );
   } else {
     for (let i = 0; i < numberOfWords; i++) {
-      let randomWord = easyTextData[random(0, easyTextData.length)];
+      let randomWord;
+      if (difficulty === "easy")
+        randomWord = easyTextData[random(0, easyTextData.length)];
+      else if (difficulty === "moderate")
+        randomWord = moderateTextData[random(0, moderateTextData.length)];
+      else randomWord = hardTextData[random(0, hardTextData.length)];
       let wordData;
       if (i === 0) wordData = new WordData(randomWord, true);
       else wordData = new WordData(randomWord, false);
@@ -81,14 +86,14 @@ const getRandomTextData = (numberOfWords, string) => {
   }
   return arr;
 };
-const InputField = () => {
+const InputField = ({ difficulty }) => {
   const [inputArray, setInputArray] = React.useState([]);
   const [correctWords, setCorrectWords] = React.useState(0);
   const [inputValue, setInputValue] = React.useState("");
   const [recordWord, setRecordWord] = React.useState(false);
   const [startTimer, setStartTimer] = React.useState(false);
   const [dummyRender, setDummyRender] = React.useState(0);
-  const [textData, setTextData] = React.useState(getRandomTextData(10));
+  const [textData, setTextData] = React.useState([]);
   const [done, setDone] = React.useState(false);
 
   const inputRef = React.useRef();
@@ -104,6 +109,10 @@ const InputField = () => {
   };
 
   React.useEffect(() => {
+    setTextData(getRandomTextData(90, difficulty));
+  }, [difficulty]);
+
+  React.useEffect(() => {
     if (iterator < textData.length) {
       if (!textData[iterator]["word"].startsWith(inputValue)) {
         textData[iterator]["isCorrect"] = false;
@@ -116,7 +125,7 @@ const InputField = () => {
 
   const handleTimerReset = () => {
     setDone(false);
-    setTextData(getRandomTextData(20));
+    setTextData(getRandomTextData(90, difficulty));
     setCorrectWords(0);
     setInputArray([]);
     setInputValue("");

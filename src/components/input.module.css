@@ -19,10 +19,11 @@
 }
 
 .sampleText {
-  height: 150px;
+  height: 200px;
   overflow-y: hidden;
   line-height: 3rem;
   text-overflow: ellipsis;
+  overflow-y: scroll;
 }
 
 .correctWords {

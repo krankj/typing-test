@@ -5,7 +5,7 @@ import WebWorker from "./workerSetup";
 
 const Timer = ({ startTimer, resetFields, isDone }) => {
   const [isTimerOn, setIsTimerOn] = React.useState(false);
-  const [countdown, setCountDown] = React.useState(5);
+  const [countdown, setCountDown] = React.useState(60);
 
   React.useEffect(() => {
     if (startTimer) {
@@ -15,14 +15,18 @@ const Timer = ({ startTimer, resetFields, isDone }) => {
 
   React.useEffect(() => {
     let w = new WebWorker(worker);
+    let interval;
     if (isTimerOn) {
-      w.postMessage("start");
-      w.addEventListener("message", (e) => {
+      interval = setInterval(() => {
         setCountDown((prevCount) => Number((prevCount - 0.1).toFixed(1)));
-      });
+      }, 100);
+      // w.postMessage("start");
+      // w.addEventListener("message", (e) => {
+      //   setCountDown((prevCount) => Number((prevCount - 0.1).toFixed(1)));
+      // });
     }
     return () => {
-      w.terminate();
+      clearInterval(interval);
     };
   }, [isTimerOn]);
 
@@ -35,7 +39,7 @@ const Timer = ({ startTimer, resetFields, isDone }) => {
 
   const resetTimer = () => {
     setIsTimerOn(false);
-    setCountDown(5);
+    setCountDown(60);
     resetFields();
   };
 

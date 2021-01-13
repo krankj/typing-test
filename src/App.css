@@ -11,6 +11,19 @@
   padding-left: 2rem;
 }
 
+.menuContainer {
+  margin: 2rem;
+}
+
+label {
+  font-size: 0.7rem;
+  margin-right: 1rem;
+}
+
+.menu {
+  background-color: gray;
+}
+
 .appContent {
   min-height: 60vh;
   display: flex;
