@@ -18,12 +18,22 @@
   font-size: 2rem;
 }
 
+.boldAndCenter {
+  color: greenyellow;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 6rem;
+  font-weight: bold;
+  height: 100%;
+  animation: fadein 1s;
+}
+
 .sampleText {
-  height: 200px;
+  height: 500px;
   overflow-y: hidden;
   line-height: 3rem;
   text-overflow: ellipsis;
-  overflow-y: scroll;
 }
 
 .correctWords {

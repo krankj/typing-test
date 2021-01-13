@@ -3,6 +3,7 @@ import styles from "./input.module.css";
 import Timer from "./Timer";
 import random from "utils/random";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 const sampleTextData = [
   "My name is Sudarshan and I am coming here",
@@ -10,47 +11,47 @@ const sampleTextData = [
   "Srini and Raksha are going to do something about it, I know it",
 ];
 
-const easyTextData = [
-  "he",
-  "it",
-  "be",
-  "something",
-  "easy",
-  "Indian",
-  "girl",
-  "boy",
-  "feverish",
-  "cold",
-  "car",
-  "drift",
-  "radio",
-];
-
-const moderateTextData = [
-  "procrastinate",
-  "indifferent",
-  "causation",
-  "effects",
-  "randomize",
-  "jeopardy",
-  "agony",
-  "interesting",
-  "capable",
-  "profound",
-  "wisdom",
-  "knowledge",
-];
-
-const hardTextData = [
-  "hypocite",
-  "gyaan",
-  "dictatorial",
-  "magnanimous",
-  "respectively",
-  "humbuzz",
-  "pizzas",
-  "recklessness",
-];
+const textData = {
+  easy: [
+    "he",
+    "it",
+    "be",
+    "something",
+    "easy",
+    "Indian",
+    "girl",
+    "boy",
+    "feverish",
+    "cold",
+    "car",
+    "drift",
+    "radio",
+  ],
+  moderate: [
+    "procrastinate",
+    "indifferent",
+    "causation",
+    "effects",
+    "randomize",
+    "jeopardy",
+    "agony",
+    "interesting",
+    "capable",
+    "profound",
+    "wisdom",
+    "knowledge",
+  ],
+  hard: [
+    "hypocite",
+    "gyaan",
+    "dictatorial",
+    "magnanimous",
+    "respectively",
+    "humbuzz",
+    "pizzas",
+    "recklessness",
+  ],
+};
 
 function WordData(word, toVisit) {
   this.word = word;
@@ -62,6 +63,12 @@ function WordData(word, toVisit) {
 
 let iterator = 0;
 
+const getApiData = (arr) => {
+  return arr.map((word, index) =>
+    index === 0 ? new WordData(word, true) : new WordData(word, false)
+  );
+};
+
 const getRandomTextData = (numberOfWords, difficulty, string) => {
   let arr = [];
   if (string) {
@@ -72,12 +79,8 @@ const getRandomTextData = (numberOfWords, difficulty, string) => {
       );
   } else {
     for (let i = 0; i < numberOfWords; i++) {
-      let randomWord;
-      if (difficulty === "easy")
-        randomWord = easyTextData[random(0, easyTextData.length)];
-      else if (difficulty === "moderate")
-        randomWord = moderateTextData[random(0, moderateTextData.length)];
-      else randomWord = hardTextData[random(0, hardTextData.length)];
+      let randomWord =
+        textData[difficulty][random(0, textData[difficulty]["length"])];
       let wordData;
       if (i === 0) wordData = new WordData(randomWord, true);
       else wordData = new WordData(randomWord, false);
@@ -108,8 +111,15 @@ const InputField = ({ difficulty }) => {
     }
   };
 
+  const fetchWords = () =>
+    axios
+      .get("https://random-word-api.herokuapp.com/word?number=100")
+      .then((result) => setTextData(getApiData(result.data)))
+      .catch((err) => console.error("Somehting went wrong"));
+
   React.useEffect(() => {
-    setTextData(getRandomTextData(90, difficulty));
+    if (difficulty === "api") fetchWords();
+    else setTextData(getRandomTextData(90, difficulty));
   }, [difficulty]);
 
   React.useEffect(() => {
@@ -125,7 +135,8 @@ const InputField = ({ difficulty }) => {
 
   const handleTimerReset = () => {
     setDone(false);
-    setTextData(getRandomTextData(90, difficulty));
+    if (difficulty === "api") fetchWords();
+    else setTextData(getRandomTextData(90, difficulty));
     setCorrectWords(0);
     setInputArray([]);
     setInputValue("");
@@ -179,24 +190,32 @@ const InputField = ({ difficulty }) => {
     <div>
       <div className={styles.sampleTextContainer}>
         <div className={styles.sampleText}>
-          {textData.map((item) => {
-            if (item.visited) {
-              if (item.wasCorrect) {
-                return <Word key={uuidv4()} color="green" data={item.word} />;
-              } else {
-                return <Word key={uuidv4()} color="red" data={item.word} />;
+          {done ? (
+            <h1 className={` ${styles.boldAndCenter}`}>
+              Rate: {correctWords}/min
+            </h1>
+          ) : (
+            textData.map((item) => {
+              if (item.visited) {
+                if (item.wasCorrect) {
+                  return <Word key={uuidv4()} color="green" data={item.word} />;
+                } else {
+                  return <Word key={uuidv4()} color="red" data={item.word} />;
+                }
               }
-            }
-            if (item.toVisit) {
-              if (item.isCorrect) {
-                return <Word key={uuidv4()} bgColor="grey" data={item.word} />;
-              } else {
-                return <Word key={uuidv4()} bgColor="red" data={item.word} />;
+              if (item.toVisit) {
+                if (item.isCorrect) {
+                  return (
+                    <Word key={uuidv4()} bgColor="grey" data={item.word} />
+                  );
+                } else {
+                  return <Word key={uuidv4()} bgColor="red" data={item.word} />;
+                }
               }
-            }
 
-            return <Word key={uuidv4()} color="none" data={item.word} />;
-          })}
+              return <Word key={uuidv4()} color="none" data={item.word} />;
+            })
+          )}
         </div>
       </div>
 

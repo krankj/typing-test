@@ -24,6 +24,7 @@ function App() {
             <option value="easy">Easy</option>
             <option value="moderate">Moderate</option>
             <option value="hard">Hard</option>
+            <option value="api">API</option>
           </select>
         </div>
 
