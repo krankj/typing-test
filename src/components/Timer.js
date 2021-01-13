@@ -5,7 +5,7 @@ import WebWorker from "./workerSetup";
 
 const Timer = ({ startTimer, resetFields, isDone }) => {
   const [isTimerOn, setIsTimerOn] = React.useState(false);
-  const [countdown, setCountDown] = React.useState(3);
+  const [countdown, setCountDown] = React.useState(60);
 
   React.useEffect(() => {
     if (startTimer) {
