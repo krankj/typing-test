@@ -5,19 +5,30 @@
   font-size: calc(1px + 2vmin);
 }
 
-.appContainer > p {
+.appContainer {
   font-size: 2rem;
   font-weight: 100;
-  padding-left: 2rem;
 }
 
-.menuContainer {
-  margin: 2rem;
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.difficultyContainer {
+  margin: 1rem;
+  display: flex;
+  flex-flow: column wrap;
+  padding: 0 1rem;
+}
+
+.menuContainer p {
+  font-size: 1rem;
 }
 
 label {
   font-size: 0.7rem;
-  margin-right: 1rem;
 }
 
 .menu {
@@ -25,11 +36,11 @@ label {
 }
 
 .appContent {
-  min-height: 60vh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-flow: column wrap;
   align-items: center;
+  min-height: 50vh;
+  padding: 2rem;
   font-size: calc(10px + 2vmin);
 }
 

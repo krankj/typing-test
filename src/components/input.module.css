@@ -1,6 +1,6 @@
 .inputField {
   margin-top: 2rem;
-  width: 40vw;
+  width: 60vw;
   height: 40px;
   font-size: large;
   font-family: inherit;
@@ -14,8 +14,11 @@
 
 .sampleTextContainer {
   font-weight: 400;
-  width: 40vw;
+  width: 60vw;
   font-size: 2rem;
+  border: 2px solid gray;
+  margin-right: 0;
+  padding: 1rem;
 }
 
 .boldAndCenter {
@@ -25,6 +28,7 @@
   align-items: center;
   font-size: 6rem;
   font-weight: bold;
+  margin: 0;
   height: 100%;
   animation: fadein 1s;
 }
