@@ -3,9 +3,12 @@ import styles from "./Timer.module.css";
 import worker from "./worker";
 import WebWorker from "./workerSetup";
 
-const Timer = ({ startTimer, resetFields, isDone }) => {
+const startTimerValue = 60;
+
+const Timer = ({ startTimer, resetFields, isDone, correctWords }) => {
   const [isTimerOn, setIsTimerOn] = React.useState(false);
-  const [countdown, setCountDown] = React.useState(60);
+  const [countdown, setCountDown] = React.useState(startTimerValue);
+  const [rate, setRate] = React.useState(0);
 
   React.useEffect(() => {
     if (startTimer) {
@@ -34,12 +37,18 @@ const Timer = ({ startTimer, resetFields, isDone }) => {
     if (countdown === 0) {
       setIsTimerOn(false);
       isDone();
+    } else {
+      let multiplier = startTimerValue / (startTimerValue - countdown);
+      if (multiplier === Infinity) {
+        multiplier = 0;
+      }
+      setRate(correctWords * multiplier);
     }
   }, [countdown]);
 
   const resetTimer = () => {
     setIsTimerOn(false);
-    setCountDown(60);
+    setCountDown(startTimerValue);
     resetFields();
   };
 
@@ -48,6 +57,7 @@ const Timer = ({ startTimer, resetFields, isDone }) => {
       <p className={countdown === 0 ? styles.highlight : ""}>
         Timer: {countdown.toFixed(1)} s
       </p>
+      <p>Rate: {rate.toFixed(1)} wpm</p>
       <Button resetTimer={resetTimer} />
     </div>
   );

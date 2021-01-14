@@ -242,6 +242,7 @@ const InputField = ({ difficulty }) => {
         startTimer={startTimer}
         resetFields={handleTimerReset}
         isDone={handleComplete}
+        correctWords={correctWords}
       />
     </div>
   );
