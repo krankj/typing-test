@@ -1,11 +1,12 @@
 .container {
   display: flex;
   align-items: center;
+  color: rgb(189, 189, 189);
 }
 
 .icon {
   height: 150px;
   width: 150px;
-  fill: white;
+  fill: greenyellow;
   margin: 0 1rem;
 }

@@ -9,8 +9,8 @@
   border-radius: 4px;
   padding: 8px;
   text-decoration: none;
-  background-color: #129c00;
-  color: white;
+  background-color: greenyellow;
+  color: black;
   font-size: 1rem;
   margin: 40px 0;
 }
@@ -28,7 +28,7 @@
 
 .button:hover {
   cursor: pointer;
-  background-color: #136908;
+  background-color: rgb(114, 190, 0);
 }
 
 @media screen and (max-width: 500px) {

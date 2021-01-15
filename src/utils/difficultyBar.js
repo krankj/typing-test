@@ -2,7 +2,7 @@ import React from "react";
 
 const DifficultyBar = ({ initValue, setSelectValue }) => (
   <>
-    <div>
+    <div className="flex">
       <input
         type="radio"
         name="diff"
@@ -15,7 +15,7 @@ const DifficultyBar = ({ initValue, setSelectValue }) => (
       />
       <label htmlFor="easy">Easy</label>
     </div>
-    <div>
+    <div className="flex">
       <input
         type="radio"
         name="diff"
@@ -28,7 +28,7 @@ const DifficultyBar = ({ initValue, setSelectValue }) => (
       />
       <label htmlFor="moderate">Moderate</label>
     </div>
-    <div>
+    <div className="flex">
       <input
         type="radio"
         name="diff"
@@ -41,7 +41,7 @@ const DifficultyBar = ({ initValue, setSelectValue }) => (
       />
       <label htmlFor="hard">Hard</label>
     </div>
-    <div>
+    <div className="flex">
       <input
         type="radio"
         name="diff"

@@ -12,7 +12,7 @@ function App() {
     <div className="App">
       <div className="appContainer">
         <div className="topBar">
-          <IconContainer icon={TypingIcon} text="Typing Test" />
+          <IconContainer icon={TypingIcon} text="TYPING TEST" />
           <div className="difficultyContainer">
             <DifficultyBar
               initValue={selectValue}

@@ -21,6 +21,7 @@
   display: flex;
   flex-flow: column wrap;
   padding: 0 1rem;
+  color: greenyellow;
 }
 
 .menuContainer p {
@@ -52,4 +53,35 @@ label {
   .sampleTextContainer {
     width: 60vw;
   }
+}
+
+input[type="radio"] {
+  /* remove standard background appearance */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* create custom radiobutton appearance */
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  padding: 6px;
+  /* background-color only for content */
+  margin: 10px 10px 10px 0;
+  background-clip: content-box;
+
+  background-color: rgb(99, 98, 98);
+  border-radius: 50%;
+}
+
+input[type="radio"]:checked {
+  background-color: greenyellow;
+}
+
+input[type="radio"]:focus {
+  outline: none;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
 }
