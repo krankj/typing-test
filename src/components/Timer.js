@@ -3,7 +3,7 @@ import styles from "./Timer.module.css";
 import worker from "workerize-loader!./worker"; // eslint-disable-line import/no-webpack-loader-syntax
 import WebWorker from "./workerSetup";
 
-const startTimerValue = 3;
+const startTimerValue = 60;
 
 const Timer = ({ startTimer, resetFields, isDone, correctWords }) => {
   const [isTimerOn, setIsTimerOn] = React.useState(false);
