@@ -18,8 +18,8 @@ const Timer = ({ startTimer, resetFields, isDone, correctWords }) => {
 
   React.useEffect(() => {
     //let w = new WebWorker(worker);
+    //let interval;
     let w = worker();
-    let interval;
     if (isTimerOn) {
       // interval = setInterval(() => {
       //   setCountDown((prevCount) => Number((prevCount - 0.1).toFixed(1)));
@@ -33,6 +33,7 @@ const Timer = ({ startTimer, resetFields, isDone, correctWords }) => {
     }
     return () => {
       w.terminate();
+      //clearInterval(interval);
     };
   }, [isTimerOn]);
 
