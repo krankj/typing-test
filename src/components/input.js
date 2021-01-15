@@ -135,8 +135,6 @@ const InputField = ({ difficulty }) => {
 
   const handleTimerReset = () => {
     setDone(false);
-    if (difficulty === "api") fetchWords();
-    else setTextData(getRandomTextData(90, difficulty));
     setCorrectWords(0);
     setInputArray([]);
     setInputValue("");

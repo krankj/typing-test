@@ -1,9 +1,10 @@
 import React from "react";
 import styles from "./Timer.module.css";
 import worker from "workerize-loader!./worker"; // eslint-disable-line import/no-webpack-loader-syntax
+import ReactCountdownClock from "react-countdown-clock";
 import WebWorker from "./workerSetup";
 
-const startTimerValue = 60;
+const startTimerValue = 3;
 
 const Timer = ({ startTimer, resetFields, isDone, correctWords }) => {
   const [isTimerOn, setIsTimerOn] = React.useState(false);
@@ -37,20 +38,29 @@ const Timer = ({ startTimer, resetFields, isDone, correctWords }) => {
     };
   }, [isTimerOn]);
 
+  function timerComplete() {
+    setIsTimerOn(false);
+    isDone();
+  }
+
+  function calculateInstantTypingRate() {
+    let multiplier = startTimerValue / (startTimerValue - countdown);
+    if (multiplier === Infinity) {
+      multiplier = 0;
+    }
+    setRate(correctWords * multiplier);
+  }
+
   React.useEffect(() => {
     if (countdown === 0) {
-      setIsTimerOn(false);
-      isDone();
+      timerComplete();
     } else {
-      let multiplier = startTimerValue / (startTimerValue - countdown);
-      if (multiplier === Infinity) {
-        multiplier = 0;
-      }
-      setRate(correctWords * multiplier);
+      calculateInstantTypingRate();
     }
   }, [countdown]);
 
   const resetTimer = () => {
+    window.location.reload();
     setIsTimerOn(false);
     setCountDown(startTimerValue);
     resetFields();
@@ -58,10 +68,22 @@ const Timer = ({ startTimer, resetFields, isDone, correctWords }) => {
 
   return (
     <div className={styles.timer}>
-      <p className={countdown === 0 ? styles.highlight : ""}>
+      <div className={styles.roundTimer}>
+        <ReactCountdownClock
+          seconds={countdown === 0 ? 1 : startTimerValue}
+          color={countdown === 0 ? "#ff4a11" : "greenyellow"}
+          alpha={0.8}
+          size={75}
+          showMilliseconds={false}
+          fontSize="12px"
+          paused={!isTimerOn}
+        />
+      </div>
+      {/* <p className={countdown === 0 ? styles.highlight : ""}>
         Timer: {countdown.toFixed(1)} s
-      </p>
-      <p>Instant Rate: {rate.toFixed(1)} wpm</p>
+      </p> */}
+      <p>Instant Rate: {rate.toFixed(0)} wpm</p>
+
       <Button resetTimer={resetTimer} />
     </div>
   );

@@ -42,14 +42,14 @@
 
 .correctWords {
   font-weight: 100;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 }
 
 .hightlightResult {
   font-weight: 300;
   color: greenyellow;
   font-size: 1.5rem;
-  animation: fadein 1s;
+  transition: color 1s;
 }
 
 span {

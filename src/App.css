@@ -42,6 +42,7 @@ label {
   min-height: 50vh;
   padding: 2rem;
   font-size: calc(10px + 2vmin);
+  text-align: center;
 }
 
 @media screen and (max-width: 400px) {
