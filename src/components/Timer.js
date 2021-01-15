@@ -4,7 +4,7 @@ import worker from "workerize-loader!./worker"; // eslint-disable-line import/no
 import ReactCountdownClock from "react-countdown-clock";
 import WebWorker from "./workerSetup";
 
-const startTimerValue = 3;
+const startTimerValue = 60;
 
 const Timer = ({ startTimer, resetFields, isDone, correctWords }) => {
   const [isTimerOn, setIsTimerOn] = React.useState(false);
