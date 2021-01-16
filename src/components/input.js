@@ -6,11 +6,11 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import ReactTooltip from "react-tooltip";
 
-const sampleTextData = [
-  "My name is Sudarshan and I am coming here",
-  "This is going to be a long long paragraph and there is nothing else anyone can do about it and what if there is something done for the well being then there is absolutely nothing",
-  "Srini and Raksha are going to do something about it, I know it",
-];
+// const sampleTextData = [
+//   "My name is Sudarshan and I am coming here",
+//   "This is going to be a long long paragraph and there is nothing else anyone can do about it and what if there is something done for the well being then there is absolutely nothing",
+//   "Srini and Raksha are going to do something about it, I know it",
+// ];
 
 const textData = {
   easy: [

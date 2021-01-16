@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Timer.module.css";
 import worker from "workerize-loader!./worker"; // eslint-disable-line import/no-webpack-loader-syntax
 import ReactCountdownClock from "react-countdown-clock";
-import WebWorker from "./workerSetup";
+//import WebWorker from "./workerSetup";
 
 const startTimerValue = 60;
 
@@ -71,7 +71,7 @@ const Timer = ({ startTimer, resetFields, isDone, correctWords }) => {
       <div className={styles.roundTimer}>
         <ReactCountdownClock
           seconds={countdown === 0 ? 1 : startTimerValue}
-          color={countdown === 0 ? "#ff4a11" : "greenyellow"}
+          color={countdown <= 10 ? "#ff4a11" : "greenyellow"}
           alpha={0.8}
           size={75}
           showMilliseconds={false}
