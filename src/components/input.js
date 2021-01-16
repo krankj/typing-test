@@ -159,6 +159,11 @@ const InputField = ({ difficulty }) => {
   };
 
   React.useEffect(() => {
+    if (correctWords === 0) return;
+    setAverageWordLength(wordSum / correctWords);
+  }, [correctWords]);
+
+  React.useEffect(() => {
     if (recordWord) {
       if (inputValue !== "") {
         if (iterator < textData.length - 1) {
@@ -167,13 +172,13 @@ const InputField = ({ difficulty }) => {
         if (iterator < textData.length) {
           if (inputValue === textData[iterator]["word"]) {
             textData[iterator]["wasCorrect"] = true;
+            wordSum += textData[iterator]["length"];
             setCorrectWords((prevCount) => prevCount + 1);
           } else {
             textData[iterator]["isCorrect"] = false;
             textData[iterator]["wasCorrect"] = false;
           }
-          wordSum += textData[iterator]["length"];
-          setAverageWordLength(wordSum / (iterator + 1));
+
           textData[iterator]["visited"] = true;
           iterator++;
           setInputValue("");
