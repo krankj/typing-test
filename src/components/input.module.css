@@ -24,13 +24,18 @@
 .boldAndCenter {
   color: greenyellow;
   display: flex;
+  flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  font-size: 6rem;
+  font-size: 3rem;
   font-weight: bold;
   margin: 0;
   height: 100%;
   animation: fadein 1s;
+}
+
+.boldAndCenter span {
+  color: rgb(160, 160, 160);
 }
 
 .sampleText {

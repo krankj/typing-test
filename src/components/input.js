@@ -4,6 +4,7 @@ import Timer from "./Timer";
 import random from "utils/random";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
+import ReactTooltip from "react-tooltip";
 
 const sampleTextData = [
   "My name is Sudarshan and I am coming here",
@@ -59,9 +60,11 @@ function WordData(word, toVisit) {
   this.wasCorrect = false;
   this.isCorrect = true;
   this.visited = false;
+  this.length = word.length;
 }
 
 let iterator = 0;
+let wordSum = 0;
 
 const getApiData = (arr) => {
   return arr.map((word, index) =>
@@ -90,9 +93,9 @@ const getRandomTextData = (numberOfWords, difficulty, string) => {
   return arr;
 };
 const InputField = ({ difficulty }) => {
-  const [inputArray, setInputArray] = React.useState([]);
   const [correctWords, setCorrectWords] = React.useState(0);
   const [inputValue, setInputValue] = React.useState("");
+  const [averageWordLength, setAverageWordLength] = React.useState(0);
   const [recordWord, setRecordWord] = React.useState(false);
   const [startTimer, setStartTimer] = React.useState(false);
   const [dummyRender, setDummyRender] = React.useState(0);
@@ -119,7 +122,7 @@ const InputField = ({ difficulty }) => {
 
   React.useEffect(() => {
     if (difficulty === "api") fetchWords();
-    else setTextData(getRandomTextData(90, difficulty));
+    else setTextData(getRandomTextData(120, difficulty));
   }, [difficulty]);
 
   React.useEffect(() => {
@@ -134,12 +137,13 @@ const InputField = ({ difficulty }) => {
   }, [inputValue, textData]);
 
   const handleTimerReset = () => {
+    setAverageWordLength(0);
     setDone(false);
     setCorrectWords(0);
-    setInputArray([]);
     setInputValue("");
     setStartTimer(false);
     iterator = 0;
+    wordSum = 0;
     if (inputRef.current) {
       inputRef.current.focus();
     }
@@ -147,9 +151,9 @@ const InputField = ({ difficulty }) => {
 
   const handleComplete = () => {
     setTextData([]);
-    setInputArray([]);
     setInputValue("");
     iterator = 0;
+    wordSum = 0;
     setStartTimer(false);
     setDone(true);
   };
@@ -160,22 +164,23 @@ const InputField = ({ difficulty }) => {
         if (iterator < textData.length - 1) {
           textData[iterator + 1]["toVisit"] = true;
         }
-        inputArray.push(inputValue);
         if (iterator < textData.length) {
-          if (inputArray[iterator] === textData[iterator]["word"]) {
+          if (inputValue === textData[iterator]["word"]) {
             textData[iterator]["wasCorrect"] = true;
             setCorrectWords((prevCount) => prevCount + 1);
           } else {
             textData[iterator]["isCorrect"] = false;
             textData[iterator]["wasCorrect"] = false;
           }
+          wordSum += textData[iterator]["length"];
+          setAverageWordLength(wordSum / (iterator + 1));
           textData[iterator]["visited"] = true;
           iterator++;
           setInputValue("");
         }
       }
     }
-  }, [recordWord, inputValue, textData, inputArray]);
+  }, [recordWord, inputValue, textData]);
 
   const handleSpaceKey = (e) => {
     if (e.key === " ") {
@@ -189,9 +194,19 @@ const InputField = ({ difficulty }) => {
       <div className={styles.sampleTextContainer}>
         <div className={styles.sampleText}>
           {done ? (
-            <h1 className={` ${styles.boldAndCenter}`}>
-              Rate: {correctWords}/min
-            </h1>
+            <>
+              <div className={` ${styles.boldAndCenter}`}>
+                <h1>
+                  <span>Rate:&nbsp; </span>
+                  {correctWords}/min{" "}
+                </h1>
+                <p data-tip="Characters per second">
+                  <span>CPS: &nbsp;</span>
+                  {((correctWords * averageWordLength) / 60).toFixed(1)}
+                </p>
+                <ReactTooltip place="left" type="dark" scrollHide="true" />
+              </div>
+            </>
           ) : (
             textData.map((item) => {
               if (item.visited) {
@@ -235,7 +250,9 @@ const InputField = ({ difficulty }) => {
       >
         Correct words: {correctWords}
       </p>
-
+      <p className={styles.correctWords}>
+        Average Word Length: {averageWordLength.toFixed(1)}{" "}
+      </p>
       <Timer
         startTimer={startTimer}
         resetFields={handleTimerReset}
